@@ -7,3 +7,9 @@ export interface Book {
   dateBorrowed: Date;
   borrowStatus: 'Available' | 'On loan';
 }
+//2.Define interface for sortstate
+export interface SortState {
+  key?: keyof Book; //this means that it must be id,title,author etc - all properties of Book
+  direction?: 'asc' | 'desc';
+// ? means property is optional
+}

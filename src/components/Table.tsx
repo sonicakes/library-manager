@@ -1,14 +1,13 @@
-import React from "react";
-import type { Book } from "./types";
+import React, {useState} from "react";
+import type { Book, SortState } from "./types";
 import {
   ChevronUpIcon, // Indicates ascending sort (A-Z, 1-10, Oldest-Newest)
   ChevronDownIcon, // Indicates descending sort (Z-A, 10-1, Newest-Oldest)
-  ChevronUpDownIcon, // Indicates the column is unsorted / available for sorting
 } from "@heroicons/react/20/solid"; // or /24/outline for a larger icon
 // Define the hardcoded data array for Books
 const bookData: Book[] = [
   {
-    id: 1,
+    id: 78,
     title: "Daisies in the field",
     author: "Alex Johnson",
     borrowStatus: "Available",
@@ -16,15 +15,15 @@ const bookData: Book[] = [
     dateBorrowed: new Date("2025-09-06"),
   },
   {
-    id: 2,
+    id: 29,
     title: "Waterworld",
     author: "Jenny Spikes",
     borrowStatus: "On loan",
-    publicationYear: 2004,
+    publicationYear: 1985,
     dateBorrowed: new Date("2025-10-01"),
   },
   {
-    id: 3,
+    id: 32,
     title: "Green Grass",
     author: "Labra Dor",
     borrowStatus: "Available",
@@ -35,18 +34,48 @@ const bookData: Book[] = [
 // 	Array Notation: This denotes that the type is an array of the preceding type. So its an array of objects of a type Book with certain fields that have been defined in types.
 
 // Define the column headers (optional, could be hardcoded in the JSX)
-const columnHeaders: string[] = [
-  "ID",
-  "Title",
-  "Author",
-  "Year Published",
-  "Borrow Status",
-  "Due date",
+const columnHeaders: {name: string, key: keyof Book}[] = [
+  {name: "ID", key: 'id'},
+  {name: "Title", key: 'title'},
+  {name: "Author", key: 'author'},
+  {name: "Year Published", key: 'publicationYear'},
+  {name: "Borrow Status", key: 'borrowStatus'},
+  {name: "Date Borrowed", key: 'dateBorrowed'},
 ];
 
 // The functional component takes NO PROPS atm
 const Table = () => {
-  // The Explicit Type. FC stands for Functional Component.
+  const [sortedData, setSortedData] = useState<Book[]>(bookData); 
+  const [sortState, setSortState] = useState<SortState>({ }); //or {key:undefined; direction:undefined}
+  // The Explicit Type: FC stands for Functional Component.
+
+  const handleSort = (key: keyof Book, direction: 'asc' | 'desc') => {
+  
+    // A. Set the new active sort state
+    setSortState({ key, direction });
+  
+    // B. Sort the data using the passed direction
+    const sorted = [...sortedData].sort((a, b) => {
+      const aValue = a[key];
+      const bValue = b[key];
+      let comparison = 0;
+  
+      // Core comparison logic (works for strings, numbers, and Dates)
+      if (aValue > bValue) {
+        comparison = 1;
+      } else if (aValue < bValue) {
+        comparison = -1;
+      }
+  
+      // C. Apply the passed direction
+      return direction === 'asc' ? comparison : comparison * -1;
+    });
+  
+    // D. Update the component's state with the new sorted data
+    setSortedData(sorted);
+  };
+
+
   return (
     <div className="overflow-x-auto shadow-lg rounded-xl">
       <table className="w-full table-auto min-w-max">
@@ -56,12 +85,15 @@ const Table = () => {
             {columnHeaders.map((header) => (
               <th
                 className="p-4 font-semibold cursor-pointer text-left text-sm border-b border-white-400"
-                key={header}
-                onClick={() => alert(`sorting ${header}`)}
+                key={header.key}
               >
                 <div className="flex items-center">
-                  <span>{header}</span>
-                  <ChevronDownIcon className="size-4 ml-1 text-white-900" />
+                  <span>{header.name}</span>
+                  {sortState.direction}
+                  <div className="flex items-center flex-col">                  
+                    <ChevronUpIcon className="size-4 ml-1 text-white-900" onClick={() => handleSort(header.key, 'asc')}/>
+                    <ChevronDownIcon className="size-4 ml-1 text-white-900" onClick={() => handleSort(header.key, 'desc')}/>
+                  </div>
                 </div>
               </th>
             ))}
@@ -70,7 +102,7 @@ const Table = () => {
 
         {/* Table Body */}
         <tbody>
-          {bookData.map((book) => (
+          {sortedData.map((book) => (
             <tr
               key={book.id}
               className="border-b bg-gray-800 hover:bg-gray-500 transition-colors"
