@@ -47,6 +47,8 @@ const columnHeaders: {name: string, key: keyof Book}[] = [
 const Table = () => {
   const [sortedData, setSortedData] = useState<Book[]>(bookData); 
   const [sortState, setSortState] = useState<SortState>({ }); //or {key:undefined; direction:undefined}
+
+  const [searchKeyword, setSearchKeyword] = useState<string>('');
   // The Explicit Type: FC stands for Functional Component.
 
   const handleSort = (key: keyof Book, direction: 'asc' | 'desc') => {
@@ -75,9 +77,39 @@ const Table = () => {
     setSortedData(sorted);
   };
 
+  const filterData = (data: Book[], keyword: string) => {
+    // case insensitive
+    if (!keyword) {
+      return data; // Return all data if the keyword is empty
+    }
+  
+    const lowerCaseKeyword = keyword.toLowerCase();
+  
+    return data.filter(book => {
+      const titleMatch = book.title.toLowerCase().includes(lowerCaseKeyword);
+      const authorMatch = book.author.toLowerCase().includes(lowerCaseKeyword); 
+      
+      // Check if the keyword exists in EITHER the title OR the author
+      return titleMatch || authorMatch;
+    });
+  };
+
+  const handleSearchChange = (event: React.ChangeEvent<HTMLInputElement>) =>{
+    const newKeyword = event.target.value;
+    setSearchKeyword(newKeyword);
+
+    // Filter the data based on the new keyword
+    const filteredData = filterData(bookData, newKeyword);
+
+    //set filtered books as setSortedData
+    setSortedData(filteredData);
+
+  }
 
   return (
-    <div className="overflow-x-auto shadow-lg rounded-xl">
+    <>
+          <input className="bg-white text-black" type='text' placeholder="Search by Title or Author..." value={searchKeyword} onChange={handleSearchChange}/>
+          <div className="overflow-x-auto shadow-lg rounded-xl">
       <table className="w-full table-auto min-w-max">
         {/* Table Header */}
         <thead className="text-black-600 uppercase">
@@ -89,7 +121,6 @@ const Table = () => {
               >
                 <div className="flex items-center">
                   <span>{header.name}</span>
-                  {sortState.direction}
                   <div className="flex items-center flex-col">                  
                     <ChevronUpIcon className="size-4 ml-1 text-white-900" onClick={() => handleSort(header.key, 'asc')}/>
                     <ChevronDownIcon className="size-4 ml-1 text-white-900" onClick={() => handleSort(header.key, 'desc')}/>
@@ -126,17 +157,15 @@ const Table = () => {
               <td className="p-4 text-sm text-white-700">
                 {book.dateBorrowed.toLocaleDateString()}
               </td>
-              {/* 
-              <td>
-                <button onClick={() => alert(`Viewing ${book.title}`)}>
-                  View
-                </button>
-              </td> */}
+           
+        
             </tr>
           ))}
         </tbody>
       </table>
     </div>
+          </>
+
   );
 };
 
