@@ -1,4 +1,4 @@
-import React, {useState} from "react";
+import React, {useState, useEffect} from "react";
 import type { Book, SortState } from "./types";
 import {
   ChevronUpIcon, // Indicates ascending sort (A-Z, 1-10, Oldest-Newest)
@@ -6,30 +6,31 @@ import {
 } from "@heroicons/react/20/solid"; // or /24/outline for a larger icon
 // Define the hardcoded data array for Books
 const bookData: Book[] = [
-  {
-    id: 78,
-    title: "Daisies in the field",
-    author: "Alex Johnson",
-    borrowStatus: "Available",
-    publicationYear: 1992,
-    dateBorrowed: new Date("2025-09-06"),
-  },
-  {
-    id: 29,
-    title: "Waterworld",
-    author: "Jenny Spikes",
-    borrowStatus: "On loan",
-    publicationYear: 1985,
-    dateBorrowed: new Date("2025-10-01"),
-  },
-  {
-    id: 32,
-    title: "Green Grass",
-    author: "Labra Dor",
-    borrowStatus: "Available",
-    publicationYear: 2025,
-    dateBorrowed: new Date("2025-08-02"),
-  },
+
+  // {
+  //   id: 78,
+  //   title: "Daisies in the field",
+  //   author: "Alex Johnson",
+  //   borrowStatus: "Available",
+  //   publicationYear: 1992,
+  //   dateBorrowed: new Date("2025-09-06"),
+  // },
+  // {
+  //   id: 29,
+  //   title: "Waterworld",
+  //   author: "Jenny Spikes",
+  //   borrowStatus: "On loan",
+  //   publicationYear: 1985,
+  //   dateBorrowed: new Date("2025-10-01"),
+  // },
+  // {
+  //   id: 32,
+  //   title: "Green Grass",
+  //   author: "Labra Dor",
+  //   borrowStatus: "Available",
+  //   publicationYear: 2025,
+  //   dateBorrowed: new Date("2025-08-02"),
+  // },
 ];
 // 	Array Notation: This denotes that the type is an array of the preceding type. So its an array of objects of a type Book with certain fields that have been defined in types.
 
@@ -45,11 +46,42 @@ const columnHeaders: {name: string, key: keyof Book}[] = [
 
 // The functional component takes NO PROPS atm
 const Table = () => {
-  const [sortedData, setSortedData] = useState<Book[]>(bookData); 
+  //instead of using hardcoded bookdata, we are using now loaded data, so initial array will be empty
+  const [sortedData, setSortedData] = useState<Book[]>([]); 
   const [sortState, setSortState] = useState<SortState>({ }); //or {key:undefined; direction:undefined}
-
+  const [isLoading, setIsLoading] = useState(true);
   const [searchKeyword, setSearchKeyword] = useState<string>('');
   // The Explicit Type: FC stands for Functional Component.
+
+  // 2. Fetch data when the component mounts
+  useEffect(() => {
+    // The path is relative to the 'public' folder
+    fetch('/books.json') 
+      .then(response => {
+        if (!response.ok) {
+          throw new Error('Network response was not ok');
+        }
+        //first we convert to response.json, then chaining another .then
+        return response.json();
+      })
+      .then((data: Book[]) => {
+        // 3. Process the data (especially dates)
+        console.log(data)
+        const processedData: Book[] = data.map(book => ({
+          ...book,
+          // Convert the string date from the JSON file into a JavaScript Date object
+          dateBorrowed: new Date(book.dateBorrowed), 
+        }));
+        
+        // 4. Update the state
+        setSortedData(processedData); 
+        setIsLoading(false);
+      })
+      .catch(error => {
+        console.error("Could not fetch data:", error);
+        setIsLoading(false);
+      });
+  }, []); // Empty dependency array ensures this runs only ONCE after mount
 
   const handleSort = (key: keyof Book, direction: 'asc' | 'desc') => {
   
@@ -104,6 +136,10 @@ const Table = () => {
     //set filtered books as setSortedData
     setSortedData(filteredData);
 
+  }
+
+  if (isLoading) {
+    return <div>Loading books data...</div>;
   }
 
   return (

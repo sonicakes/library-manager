@@ -1,0 +1,162 @@
+[
+  {
+    "id": 78,
+    "title": "Daisies in the Field",
+    "author": "Alex Johnson",
+    "borrowStatus": "Borrowed",
+    "publicationYear": 1990,
+    "dateBorrowed": "2025-09-06"
+  },
+  {
+    "id": 79,
+    "title": "The Silent Grove",
+    "author": "Maria Lopez",
+    "borrowStatus": "Available",
+    "publicationYear": 1992,
+    "dateBorrowed": null
+  },
+  {
+    "id": 80,
+    "title": "Echoes of Tomorrow",
+    "author": "James Carter",
+    "borrowStatus": "Available",
+    "publicationYear": 1994,
+    "dateBorrowed": null
+  },
+  {
+    "id": 81,
+    "title": "Shadows Beneath the Moon",
+    "author": "Lena Adams",
+    "borrowStatus": "Borrowed",
+    "publicationYear": 1996,
+    "dateBorrowed": "2025-09-09"
+  },
+  {
+    "id": 82,
+    "title": "Paths of Light",
+    "author": "Noah Green",
+    "borrowStatus": "Available",
+    "publicationYear": 1998,
+    "dateBorrowed": null
+  },
+  {
+    "id": 83,
+    "title": "Whispers of the Sea",
+    "author": "Evelyn Smith",
+    "borrowStatus": "Available",
+    "publicationYear": 2000,
+    "dateBorrowed": null
+  },
+  {
+    "id": 84,
+    "title": "The Forgotten Garden",
+    "author": "Daniel Lee",
+    "borrowStatus": "Borrowed",
+    "publicationYear": 2002,
+    "dateBorrowed": "2025-09-12"
+  },
+  {
+    "id": 85,
+    "title": "Bridge to Dawn",
+    "author": "Sophia Brown",
+    "borrowStatus": "Available",
+    "publicationYear": 2004,
+    "dateBorrowed": null
+  },
+  {
+    "id": 86,
+    "title": "Midnight Symphony",
+    "author": "Oliver Davis",
+    "borrowStatus": "Available",
+    "publicationYear": 2006,
+    "dateBorrowed": null
+  },
+  {
+    "id": 87,
+    "title": "Lost Horizons",
+    "author": "Emma Wilson",
+    "borrowStatus": "Borrowed",
+    "publicationYear": 2008,
+    "dateBorrowed": "2025-09-15"
+  },
+  {
+    "id": 88,
+    "title": "The Amber Sky",
+    "author": "Lucas Miller",
+    "borrowStatus": "Available",
+    "publicationYear": 2010,
+    "dateBorrowed": null
+  },
+  {
+    "id": 89,
+    "title": "Fragments of Time",
+    "author": "Isabella Taylor",
+    "borrowStatus": "Available",
+    "publicationYear": 2012,
+    "dateBorrowed": null
+  },
+  {
+    "id": 90,
+    "title": "Winds of Fortune",
+    "author": "Henry White",
+    "borrowStatus": "Borrowed",
+    "publicationYear": 2014,
+    "dateBorrowed": "2025-09-18"
+  },
+  {
+    "id": 91,
+    "title": "The Crystal Veil",
+    "author": "Grace Thompson",
+    "borrowStatus": "Available",
+    "publicationYear": 2016,
+    "dateBorrowed": null
+  },
+  {
+    "id": 92,
+    "title": "Rivers of Sand",
+    "author": "Jack Harris",
+    "borrowStatus": "Available",
+    "publicationYear": 2018,
+    "dateBorrowed": null
+  },
+  {
+    "id": 93,
+    "title": "Echo Valley",
+    "author": "Charlotte King",
+    "borrowStatus": "Borrowed",
+    "publicationYear": 1990,
+    "dateBorrowed": "2025-09-21"
+  },
+  {
+    "id": 94,
+    "title": "The Golden Thread",
+    "author": "Mason Scott",
+    "borrowStatus": "Available",
+    "publicationYear": 1992,
+    "dateBorrowed": null
+  },
+  {
+    "id": 95,
+    "title": "Paper Stars",
+    "author": "Amelia Walker",
+    "borrowStatus": "Available",
+    "publicationYear": 1994,
+    "dateBorrowed": null
+  },
+  {
+    "id": 96,
+    "title": "The Endless Road",
+    "author": "Ethan Lewis",
+    "borrowStatus": "Borrowed",
+    "publicationYear": 1996,
+    "dateBorrowed": "2025-09-24"
+  },
+  {
+    "id": 97,
+    "title": "Harbor of Dreams",
+    "author": "Olivia Young",
+    "borrowStatus": "Available",
+    "publicationYear": 1998,
+    "dateBorrowed": null
+  }
+]
